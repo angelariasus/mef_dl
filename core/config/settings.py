@@ -68,6 +68,7 @@ RENAMU_ZIP_URLS: Dict[int, str] = {
     year: f"https://www.inei.gob.pe/media/DATOS_ABIERTOS/RENAMU/DATA/{year}.zip"
     for year in range(2012, 2025)
 }
+RENAMU_ZIP_URLS[2025] = "https://proyectos.inei.gob.pe/iinei/srienaho/descarga/CSV/984-Modulo1963.zip"
 
 
 @dataclass
