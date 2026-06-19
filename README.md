@@ -1,4 +1,4 @@
-# MEF Data Lake
+# MEF Data Lake — Arquitectura PySpark
 
 Pipeline ETL completo para datos presupuestales del MEF (Perú) usando PySpark en modo local sobre Jupyter Notebooks.
 
@@ -10,7 +10,17 @@ data/silver/   ← Parquet curados por fuente
 data/gold/     ← Parquet del modelo dimensional (Star Schema)
 ```
 
+## Documentación Oficial
+
+Toda la arquitectura, flujos y validaciones de datos se encuentran detallados en el directorio [`/docs`](docs/index.md):
+- [1. Arquitectura y Diseño](docs/arquitectura.md)
+- [2. Capa Bronze (Ingesta)](docs/capas/bronze.md)
+- [3. Capa Silver (Limpieza y Curación)](docs/capas/silver.md)
+- [4. Capa Gold (Modelado Dimensional)](docs/capas/gold.md)
+- [5. Calidad de Datos (DQ)](docs/calidad_datos.md)
+
 ## Fuentes de Datos
+
 
 | Fuente | Método | Destino Bronze |
 |--------|--------|----------------|

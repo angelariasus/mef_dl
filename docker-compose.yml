@@ -3,7 +3,7 @@ version: '3.8'
 services:
   jupyter-pyspark:
     build: .
-    container_name: jupyter_spark_mef_v2
+    container_name: jupyter_spark_mef_dl
     ports:
       - "8101:8888"   # Jupyter Lab (8101 para evitar conflictos con el lab6)
       - "4051:4040"   # Spark UI
