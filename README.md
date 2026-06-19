@@ -10,6 +10,9 @@ data/silver/   ← Parquet curados por fuente
 data/gold/     ← Parquet del modelo dimensional (Star Schema)
 ```
 
+### Modelo Estrella
+![Star Diagram SIAF](assets/star-diagram.png)
+
 ## Documentación Oficial
 
 Toda la arquitectura, flujos y validaciones de datos se encuentran detallados en el directorio [`/docs`](docs/index.md):
