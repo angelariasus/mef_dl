@@ -1,0 +1,27 @@
+# Datos locales (nunca al repositorio)
+data/bronze/
+data/silver/
+data/gold/
+data/audit/
+data/.state.json
+logs/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Env
+.env
+
+# Spark
+spark-warehouse/
+derby.log
+metastore_db/
