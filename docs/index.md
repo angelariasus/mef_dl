@@ -16,3 +16,5 @@ Este Data Lake utiliza herramientas nativas de procesamiento de datos de Big Dat
   - **[2. Capa Silver (Limpieza)](capas/silver.md)**: Curación, normalización de datos y cálculo de banderas de calidad.
   - **[3. Capa Gold (Modelado Dimensional)](capas/gold.md)**: Estructuración de datos para análisis (Star Schema, EAV).
 - **[Gestión de Calidad de Datos (DQ)](calidad_datos.md)**: Reglas y banderas utilizadas para auditar la fiabilidad del presupuesto y las métricas municipales.
+- **[Integración con Power BI](integracion_powerbi.md)**: Guía paso a paso para conectar, limpiar y relacionar los datos de la capa Gold utilizando Power Query (M).
+

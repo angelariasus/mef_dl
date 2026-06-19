@@ -21,6 +21,8 @@ Toda la arquitectura, flujos y validaciones de datos se encuentran detallados en
 - [3. Capa Silver (Limpieza y Curación)](docs/capas/silver.md)
 - [4. Capa Gold (Modelado Dimensional)](docs/capas/gold.md)
 - [5. Calidad de Datos (DQ)](docs/calidad_datos.md)
+- [6. Integración con Power BI](docs/integracion_powerbi.md)
+
 
 ## Fuentes de Datos
 
