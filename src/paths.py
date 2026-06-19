@@ -47,7 +47,7 @@ GOLD = {
 
 # ── Archivos estáticos ────────────────────────────────────────────────────────
 STATIC = DATA_ROOT / "static"
-CATEGORIAS_CSV = STATIC / "categorias_clean.csv"
+CATEGORIAS_CSV = STATIC / "categorias.csv"
 
 # ── Auditoría ─────────────────────────────────────────────────────────────────
 AUDIT_DIR = DATA_ROOT / "audit" / "executions"
