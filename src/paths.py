@@ -1,5 +1,5 @@
 """
-Rutas del proyecto MEF DW v2.
+Rutas del proyecto MEF DL v2.
 Fuente única de verdad para todos los paths de datos en el proyecto.
 Importar desde los notebooks: from src.paths import BRONZE, SILVER, GOLD, STATIC
 """

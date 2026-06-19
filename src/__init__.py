@@ -1,1 +1,1 @@
-"""Módulo src — Utilidades del proyecto MEF DW v2."""
+"""Módulo src — Utilidades del proyecto MEF DL v2."""

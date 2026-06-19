@@ -1,5 +1,5 @@
 """
-Utilidades de Spark para el proyecto MEF DW v2.
+Utilidades de Spark para el proyecto MEF DL v2.
 Provee una SparkSession preconfigurada para modo local.
 """
 from pyspark.sql import SparkSession

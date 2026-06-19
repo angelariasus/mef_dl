@@ -72,7 +72,7 @@ RENAMU_ZIP_URLS: Dict[int, str] = {
 
 @dataclass
 class Settings:
-    """Configuración centralizada del framework MEF DW."""
+    """Configuración centralizada del framework MEF DL."""
 
     # ── API MEF ──────────────────────────────────────────────────────────────
     API_BASE_URL: str = os.getenv(

@@ -1,4 +1,4 @@
-# MEF Data Warehouse v2 — Arquitectura Vanilla PySpark
+# MEF Data Lake v2 — Arquitectura Vanilla PySpark
 
 Pipeline ETL completo para datos presupuestales del MEF (Perú) usando PySpark en modo local sobre Jupyter Notebooks, sin dependencias de SQL, AWS ni orquestadores externos.
 

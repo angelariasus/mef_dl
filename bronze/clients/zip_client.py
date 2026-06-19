@@ -13,7 +13,7 @@ logger = setup_logger("mef_dw.clients.zip_client")
 class ZipClient:
     def __init__(self):
         self.session = requests.Session()
-        self.session.headers.update({"User-Agent": "MEF-DW/2.0"})
+        self.session.headers.update({"User-Agent": "MEF-DL/2.0"})
 
     def get_remote_file_state(self, url: str) -> str:
         """Obtiene el Last-Modified del ZIP si está disponible."""
