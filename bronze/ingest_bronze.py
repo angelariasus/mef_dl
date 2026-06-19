@@ -21,13 +21,16 @@ QUALITY_SAMPLE_SIZE = 1000
 def _has_any_value(record: Dict[str, Any]) -> bool:
     return any(v is not None and v != "" for v in record.values())
 
-def _sample_first_page(generator):
+def _sample_first_page(generator, arity=2):
+    """Extrae la primera página del generador para quality check.
+    arity=2 para (batch, total), arity=3 para (batch, total, filename).
+    """
     try:
-        first_page, total = next(generator)
+        first = next(generator)
     except StopIteration:
         return [], iter([])
-    sample = first_page[:QUALITY_SAMPLE_SIZE]
-    full_gen = itertools.chain([(first_page, total)], generator)
+    sample = first[0][:QUALITY_SAMPLE_SIZE]
+    full_gen = itertools.chain([first], generator)
     return sample, full_gen
 
 def _should_skip(name: str, folder: str, remote_state: str, state: Dict[str, Any]) -> bool:
@@ -53,9 +56,10 @@ def _should_skip(name: str, folder: str, remote_state: str, state: Dict[str, Any
     return True
 
 def upload_to_bronze(page_generator, name: str, folder: str) -> Tuple[str, int]:
+    """Sube lotes de registros al almacenamiento Bronze (tuplas de 2: batch, total)."""
     total_records = 0
     batch_num = 0
-    
+
     for records, total in page_generator:
         key = f"bronze/{folder}/batch_{batch_num:05d}.json"
         ndjson_lines = [json.dumps(r, ensure_ascii=False) for r in records]
@@ -69,7 +73,40 @@ def upload_to_bronze(page_generator, name: str, folder: str) -> Tuple[str, int]:
         batch_num += 1
         pct = round(total_records / total * 100, 1) if total > 0 else "?"
         logger.info(f"  {name} | Lote {batch_num:05d} | {total_records:,}/{total:,} ({pct}%)")
-        
+
+    return f"bronze/{folder}/", total_records
+
+
+def upload_zip_to_bronze(page_generator, name: str, folder: str) -> Tuple[str, int]:
+    """
+    Sube lotes provenientes de un ZIP al almacenamiento Bronze.
+    Recibe tuplas de 3: (batch, total, csv_filename).
+    Inyecta '_source_file' en cada registro para trazabilidad de módulo.
+    """
+    total_records = 0
+    batch_num = 0
+
+    for records, total, csv_filename in page_generator:
+        # Normalizar el nombre del archivo (quitar rutas de carpeta, quedarse solo con nombre base)
+        import os
+        source_tag = os.path.splitext(os.path.basename(csv_filename))[0]
+
+        # Inyectar columna de trazabilidad
+        enriched = [{**r, "_source_file": source_tag} for r in records]
+
+        key = f"bronze/{folder}/batch_{batch_num:05d}.json"
+        ndjson_lines = [json.dumps(r, ensure_ascii=False) for r in enriched]
+        data = ("\n".join(ndjson_lines) + "\n").encode("utf-8")
+        storage.put_batch(
+            key=key,
+            data=data,
+            metadata={"source": name, "batch": str(batch_num), "csv_file": source_tag},
+        )
+        total_records += len(enriched)
+        batch_num += 1
+        pct = round(total_records / total * 100, 1) if total > 0 else "?"
+        logger.info(f"  {name} | [{source_tag}] Lote {batch_num:05d} | {total_records:,}/{total:,} ({pct}%)")
+
     return f"bronze/{folder}/", total_records
 
 def ingest_api_source(
@@ -168,8 +205,8 @@ def ingest_zip_source(
             return {"status": "skipped", "name": name}, remote_state
 
         generator = client.iter_pages(source.url, delimiter=source.delimiter)
-        sample, generator = _sample_first_page(generator)
-        
+        sample, generator = _sample_first_page(generator, arity=3)
+
         failed_count = sum(1 for row in sample if not _has_any_value(row))
         control.log_quality_check(
             check_name=f"completeness_{name}",
@@ -177,8 +214,8 @@ def ingest_zip_source(
             records_checked=len(sample),
             records_failed=failed_count
         )
-        
-        s3_path, total = upload_to_bronze(generator, name, source.folder)
+
+        s3_path, total = upload_zip_to_bronze(generator, name, source.folder)
         elapsed = round(time.time() - t0, 1)
         
         logger.info(f"Fuente ZIP extraída: {name} | {total} filas | {elapsed}s")
